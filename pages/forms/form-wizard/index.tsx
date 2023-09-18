@@ -83,7 +83,7 @@ const FormWizard = () => {
     setSelectQuarter(value);
     handleNext();
   };
-  const quarters = [<>봄</>, <>여름</>, <>가을</>, <>겨율</>];
+  const quarters = [<>봄</>, <>여름</>, <>가을</>, <>겨울</>];
   // Experiment select item info
   const getExperiment = (level: number, quarter: number) => {
     const findResult = experiments.find(
@@ -221,7 +221,7 @@ const FormWizard = () => {
       case 2:
         return (
           <Box pt={3}>
-            <CustomFormLabel htmlFor="Quarter">Quarter</CustomFormLabel>
+            <CustomFormLabel htmlFor="Experiment">Experiment</CustomFormLabel>
             <br></br>
             {getExperiment(selectLevel, selectQuarter).map((item, index) => {
               return (
