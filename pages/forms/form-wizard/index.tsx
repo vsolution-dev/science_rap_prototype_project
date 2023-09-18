@@ -236,7 +236,7 @@ const FormWizard = () => {
                   value={index}
                   onClick={handelSelectExperiments}
                 >
-                  `{index + 1}. {item.title}`
+                  {index + 1}. {item.title}
                 </Button>
               );
             })}
@@ -265,6 +265,7 @@ const FormWizard = () => {
   return (
     <PageContainer>
       <Snackbar
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
