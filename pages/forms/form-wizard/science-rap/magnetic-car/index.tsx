@@ -8,11 +8,11 @@ import {
   Typography,
   Snackbar,
 } from "@mui/material";
-import PageContainer from "../../../src/components/container/PageContainer";
-import Breadcrumb from "../../../src/layouts/full/shared/breadcrumb/Breadcrumb";
+import PageContainer from "../../../../../src/components/container/PageContainer";
+import Breadcrumb from "../../../../../src/layouts/full/shared/breadcrumb/Breadcrumb";
 
-import CustomFormLabel from "../../../src/components/forms/theme-elements/CustomFormLabel";
-import ParentCard from "../../../src/components/shared/ParentCard";
+import CustomFormLabel from "../../../../../src/components/forms/theme-elements/CustomFormLabel";
+import ParentCard from "../../../../../src/components/shared/ParentCard";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Stack } from "@mui/system";
 
@@ -25,7 +25,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const FormWizard = () => {
+const magneticcar = () => {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const handleSnackbarClose = (
     event?: React.SyntheticEvent | Event,
@@ -111,19 +111,19 @@ const FormWizard = () => {
       items: [
         {
           title: "스스로 커지는 풍선",
-          target: "/forms/form-wizard/science-rap/self-inflating-balloon",
+          target: "",
         },
         {
           title: "달걀 탱탱볼",
-          target: "/forms/form-wizard/science-rap/bouncy-egg",
+          target: "",
         },
         {
           title: "자석 자동차",
-          target: "/forms/form-wizard/science-rap/magnetic-car",
+          target: "",
         },
         {
           title: "빨대피리",
-          target: "/forms/form-wizard/science-rap/straw-flute",
+          target: "",
         },
       ],
     },
@@ -363,4 +363,4 @@ const FormWizard = () => {
   );
 };
 
-export default FormWizard;
+export default magneticcar;
