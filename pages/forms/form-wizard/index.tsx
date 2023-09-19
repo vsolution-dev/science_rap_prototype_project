@@ -15,6 +15,7 @@ import CustomFormLabel from "../../../src/components/forms/theme-elements/Custom
 import ParentCard from "../../../src/components/shared/ParentCard";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Stack } from "@mui/system";
+import { useRouter } from "next/router";
 
 const steps = ["Level", "Quarter", "Experiment"];
 
@@ -26,6 +27,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const FormWizard = () => {
+  const router = useRouter();
+
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const handleSnackbarClose = (
     event?: React.SyntheticEvent | Event,
@@ -91,7 +94,7 @@ const FormWizard = () => {
     );
     return !!findResult ? findResult.items : [];
   };
-  const handelSelectExperiments = (event: any) => {
+  const handelSelectExperiments = (event: any, target: any) => {
     const { value } = event.currentTarget;
 
     handleSnackbarClose();
@@ -101,8 +104,7 @@ const FormWizard = () => {
       return;
     }
 
-    setSelectQuarter(value);
-    handleNext();
+    router.push(target);
   };
   const experiments = [
     {
@@ -115,15 +117,15 @@ const FormWizard = () => {
         },
         {
           title: "달걀 탱탱볼",
-          target: "/forms/form-wizard/science-rap/bouncy-egg",
+          target: undefined,
         },
         {
           title: "자석 자동차",
-          target: "/forms/form-wizard/science-rap/magnetic-car",
+          target: undefined,
         },
         {
           title: "빨대피리",
-          target: "/forms/form-wizard/science-rap/straw-flute",
+          target: undefined,
         },
       ],
     },
@@ -234,7 +236,9 @@ const FormWizard = () => {
                   }}
                   key={index}
                   value={index}
-                  onClick={handelSelectExperiments}
+                  onClick={(e: any) => {
+                    handelSelectExperiments(e, item.target);
+                  }}
                 >
                   {index + 1}. {item.title}
                 </Button>
@@ -278,10 +282,7 @@ const FormWizard = () => {
           준비 중입니다. 다른 기능을 이용하여 주십시오.
         </Alert>
       </Snackbar>
-      <Breadcrumb
-        title="Level Select Wizard"
-        subtitle="this is Level Wizard page"
-      />
+
       <ParentCard title="Level Select Wizard">
         <Box width="100%">
           <Stepper activeStep={activeStep}>

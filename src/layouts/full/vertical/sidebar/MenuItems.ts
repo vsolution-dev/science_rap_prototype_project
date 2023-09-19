@@ -40,31 +40,7 @@ const Menuitems: MenuitemsType[] = [
     subtitle: "스스로 커지는 풍선",
     icon: IconFlask,
     chipColor: "secondary",
-    href: "/apps/contacts",
-  },
-  {
-    id: uniqueId(),
-    title: "실험 2",
-    subtitle: "달걀 탱탱볼",
-    icon: IconFlask,
-    chipColor: "secondary",
-    href: "/apps/contacts",
-  },
-  {
-    id: uniqueId(),
-    title: "실험 3",
-    subtitle: "자석 자동차",
-    icon: IconFlask,
-    chipColor: "secondary",
-    href: "/apps/contacts",
-  },
-  {
-    id: uniqueId(),
-    title: "실험 4",
-    subtitle: "빨대피리",
-    icon: IconFlask,
-    chipColor: "secondary",
-    href: "/apps/contacts",
+    href: "/forms/form-wizard/science-rap/self-inflating-balloon",
   },
 ];
 
