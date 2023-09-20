@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player";
 import {
   Box,
   Stepper,
@@ -8,6 +9,7 @@ import {
   Typography,
   Snackbar,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import PageContainer from "../../../../../src/components/container/PageContainer";
 import Breadcrumb from "../../../../../src/layouts/full/shared/breadcrumb/Breadcrumb";
 
@@ -15,8 +17,9 @@ import CustomFormLabel from "../../../../../src/components/forms/theme-elements/
 import ParentCard from "../../../../../src/components/shared/ParentCard";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Stack } from "@mui/system";
+import { Height } from "@mui/icons-material";
 
-const steps = ["Level", "Quarter", "Experiment"];
+const steps = ["Level", "Quiz", "Experiment"];
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -68,26 +71,26 @@ const selfinflatingballoon = () => {
       (13세 ~ 15세)
     </>,
   ];
-  // Quarter select item info
-  const [selectQuarter, setSelectQuarter] = React.useState(0);
-  const handleSelectQuarter = (event: any) => {
+  // quiz select item info
+  const [selectquiz, setSelectquiz] = React.useState(0);
+  const handleSelectquiz = (event: any) => {
     const { value } = event.currentTarget;
 
     handleSnackbarClose();
 
-    if (!(value == 2)) {
+    if (!(value == 1)) {
       setSnackbarOpen(true);
       return;
     }
 
-    setSelectQuarter(value);
+    setSelectquiz(value);
     handleNext();
   };
-  const quarters = [<>봄</>, <>여름</>, <>가을</>, <>겨울</>];
+  const quizs = [<>산소</>, <>이산화탄소</>];
   // Experiment select item info
-  const getExperiment = (level: number, quarter: number) => {
+  const getExperiment = (level: number, quiz: number) => {
     const findResult = experiments.find(
-      (item) => item.level == level && item.quarter == quarter
+      (item) => item.level == level && item.quiz == quiz
     );
     return !!findResult ? findResult.items : [];
   };
@@ -101,28 +104,16 @@ const selfinflatingballoon = () => {
       return;
     }
 
-    setSelectQuarter(value);
+    setSelectquiz(value);
     handleNext();
   };
   const experiments = [
     {
       level: 0,
-      quarter: 2,
+      quiz: 1,
       items: [
         {
           title: "스스로 커지는 풍선",
-          target: "",
-        },
-        {
-          title: "달걀 탱탱볼",
-          target: "",
-        },
-        {
-          title: "자석 자동차",
-          target: "",
-        },
-        {
-          title: "빨대피리",
           target: "",
         },
       ],
@@ -197,9 +188,15 @@ const selfinflatingballoon = () => {
       case 1:
         return (
           <Box>
-            <CustomFormLabel htmlFor="Quarter">Quarter</CustomFormLabel>
+            <CustomFormLabel htmlFor="quiz">quiz</CustomFormLabel>
+            <div>
+              식초와 탄산수소 나트륨이 만나면
+              (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)라는 기체가 발생해요.
+            </div>
             <br></br>
-            {quarters.map((item, index) => {
+            <div> &lt;보기 &gt;</div>
+            <br></br>
+            {quizs.map((item, index) => {
               return (
                 <Button
                   variant="contained"
@@ -210,7 +207,7 @@ const selfinflatingballoon = () => {
                   }}
                   key={index}
                   value={index}
-                  onClick={handleSelectQuarter}
+                  onClick={handleSelectquiz}
                 >
                   {item}
                 </Button>
@@ -220,37 +217,28 @@ const selfinflatingballoon = () => {
         );
       case 2:
         return (
-          <Box pt={3}>
+          <Box
+            style={{
+              width: "100%",
+              height: "300px", // 16:9 비율의 영상을 위한 값 (9/16)
+              position: "relative", // 자식 요소가 상대적으로 위치하도록 설정합니다.
+            }}
+          >
             <CustomFormLabel htmlFor="Experiment">Experiment</CustomFormLabel>
             <br></br>
-            {getExperiment(selectLevel, selectQuarter).map((item, index) => {
+            {getExperiment(selectLevel, selectquiz).map((item, index) => {
               return (
-                <Button
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                  style={{
-                    marginBottom: "20px",
-                  }}
-                  key={index}
-                  value={index}
-                  onClick={handelSelectExperiments}
-                >
-                  {index + 1}. {item.title}
-                </Button>
+                <ReactPlayer
+                  className="react-player"
+                  url="https://youtu.be/XVAoQ60yAZc?si=NSxtkV-Z-Dcx31KR"
+                  width="100%"
+                  height="100%"
+                  muted={true} //chrome정책으로 인해 자동 재생을 위해 mute 옵션을 true로 해주었다.
+                  playing={true}
+                  loop={true}
+                />
               );
             })}
-            {/* <Typography variant="h5">Terms and condition</Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              Sard about this site or you have been to it, but you cannot figure
-              out what it is or what it can do. MTA web directory isSard about
-              this site or you have been to it, but you cannot figure out what
-              it is or what it can do. MTA web directory is
-            </Typography>
-            <FormControlLabel
-              control={<CustomCheckbox defaultChecked />}
-              label="Agree with terms?"
-            /> */}
           </Box>
         );
       default:
