@@ -96,7 +96,7 @@ const Profile = () => {
           </Box>
         </Stack>
         <Divider />
-        {dropdownData.profile.map((profile) => (
+        {/* {dropdownData.profile.map((profile) => (
           <Box key={profile.title}>
             <Box sx={{ py: 2, px: 0 }} className="hover-text-primary">
               <Link href={profile.href}>
@@ -147,32 +147,8 @@ const Profile = () => {
               </Link>
             </Box>
           </Box>
-        ))}
+        ))} */}
         <Box mt={2}>
-          <Box
-            bgcolor="primary.light"
-            p={3}
-            mb={3}
-            overflow="hidden"
-            position="relative"
-          >
-            <Box display="flex" justifyContent="space-between">
-              <Box>
-                <Typography variant="h5" mb={2}>
-                  Unlimited <br />
-                  Access
-                </Typography>
-                <Button variant="contained" color="primary">
-                  Upgrade
-                </Button>
-              </Box>
-              <img
-                src={"/images/backgrounds/unlimited-bg.png"}
-                alt="unlimited"
-                className="signup-bg"
-              ></img>
-            </Box>
-          </Box>
           {/* <Button href="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
             Logout
           </Button> */}

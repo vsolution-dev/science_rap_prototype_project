@@ -18,8 +18,9 @@ import ParentCard from "../../../../../src/components/shared/ParentCard";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Stack } from "@mui/system";
 import { Height } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
-const steps = ["Level", "Quiz", "Experiment"];
+const steps = ["Video 1", "Video 2", "Video 3", "Video 4", "Quiz", "Finish"];
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -40,37 +41,20 @@ const selfinflatingballoon = () => {
 
     setSnackbarOpen(false);
   };
-  // Level select item info
-  const [selectLevel, setSelectLevel] = React.useState(0);
-  const handleSelectLevel = (event: any) => {
-    const { value } = event.currentTarget;
 
-    handleSnackbarClose();
+  const [isWindow, setIsWindow] = useState<boolean>(false);
 
-    if (!(value == 0)) {
-      setSnackbarOpen(true);
-      return;
-    }
+  useEffect(() => {
+    setIsWindow(true);
+  }, []);
 
-    setSelectLevel(value);
-    handleNext();
-  };
-  const levels = [
-    <>
-      새싹
-      <br></br>
-      (7세 ~ 9세)
-    </>,
-    <>
-      나무
-      <br></br>
-      (10세 ~ 12세)
-    </>,
-    <>
-      숲<br></br>
-      (13세 ~ 15세)
-    </>,
+  const videos = [
+    "/videos/v1.mp4",
+    "/videos/v2.mp4",
+    "/videos/v3.mp4",
+    "/videos/v4.mp4",
   ];
+
   // quiz select item info
   const [selectquiz, setSelectquiz] = React.useState(0);
   const handleSelectquiz = (event: any) => {
@@ -87,38 +71,8 @@ const selfinflatingballoon = () => {
     handleNext();
   };
   const quizs = [<>산소</>, <>이산화탄소</>];
-  // Experiment select item info
-  const getExperiment = (level: number, quiz: number) => {
-    const findResult = experiments.find(
-      (item) => item.level == level && item.quiz == quiz
-    );
-    return !!findResult ? findResult.items : [];
-  };
-  const handelSelectExperiments = (event: any) => {
-    const { value } = event.currentTarget;
 
-    handleSnackbarClose();
-
-    if (!(value == 0)) {
-      setSnackbarOpen(true);
-      return;
-    }
-
-    setSelectquiz(value);
-    handleNext();
-  };
-  const experiments = [
-    {
-      level: 0,
-      quiz: 1,
-      items: [
-        {
-          title: "스스로 커지는 풍선",
-          target: "",
-        },
-      ],
-    },
-  ];
+  const [isShowNextButton, setIsShowNextButton] = useState<boolean>(true);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -126,6 +80,21 @@ const selfinflatingballoon = () => {
   const isStepOptional = (step: any) => step === -1;
 
   const isStepSkipped = (step: any) => skipped.has(step);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (activeStep === steps.length) {
+      router.push("/");
+      return;
+    }
+
+    if (activeStep === 4) {
+      setIsShowNextButton(false);
+    } else {
+      setIsShowNextButton(true);
+    }
+  }, [activeStep]);
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -162,30 +131,34 @@ const selfinflatingballoon = () => {
   const handleSteps = (step: any) => {
     switch (step) {
       case 0:
+      case 1:
+      case 2:
+      case 3:
         return (
           <Box>
-            <CustomFormLabel htmlFor="Level">Level</CustomFormLabel>
+            <CustomFormLabel htmlFor="Videos">
+              스스로 커지는 풍선 | Video 4 / {`${step + 1}`}
+            </CustomFormLabel>
             <br></br>
-            {levels.map((item, index) => {
-              return (
-                <Button
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                  style={{
-                    marginBottom: "20px",
-                  }}
-                  key={index}
-                  value={index}
-                  onClick={handleSelectLevel}
-                >
-                  {item}
-                </Button>
-              );
-            })}
+            <div>
+              <ReactPlayer
+                className="react-player"
+                url={videos[step]}
+                width="100%"
+                height="70vh"
+                style={{
+                  objectFit: "fill",
+                }}
+                muted={false}
+                playing={true}
+                loop={true}
+                controls={true}
+                playsinline
+              />
+            </div>
           </Box>
         );
-      case 1:
+      case 4:
         return (
           <Box>
             <CustomFormLabel htmlFor="quiz">quiz</CustomFormLabel>
@@ -215,34 +188,28 @@ const selfinflatingballoon = () => {
             })}
           </Box>
         );
-      case 2:
+      case 5:
         return (
-          <Box
-            style={{
-              width: "100%",
-              height: "300px", // 16:9 비율의 영상을 위한 값 (9/16)
-              position: "relative", // 자식 요소가 상대적으로 위치하도록 설정합니다.
-            }}
-          >
-            <CustomFormLabel htmlFor="Experiment">Experiment</CustomFormLabel>
+          <Box>
+            <CustomFormLabel htmlFor="Finish">Finish</CustomFormLabel>
             <br></br>
-            {getExperiment(selectLevel, selectquiz).map((item, index) => {
-              return (
-                <ReactPlayer
-                  className="react-player"
-                  url="https://youtu.be/XVAoQ60yAZc?si=NSxtkV-Z-Dcx31KR"
-                  width="100%"
-                  height="100%"
-                  muted={true} //chrome정책으로 인해 자동 재생을 위해 mute 옵션을 true로 해주었다.
-                  playing={true}
-                  loop={true}
-                />
-              );
-            })}
+            <ReactPlayer
+              className="react-player"
+              url="https://youtu.be/XVAoQ60yAZc?si=NSxtkV-Z-Dcx31KR"
+              width="100%"
+              height="70vh"
+              style={{
+                objectFit: "fill",
+              }}
+              muted={true}
+              playing={true}
+              loop={true}
+              playsinline
+            />
           </Box>
         );
       default:
-        break;
+        return <></>;
     }
   };
 
@@ -263,16 +230,20 @@ const selfinflatingballoon = () => {
           severity="error"
           sx={{ width: "100%" }}
         >
-          준비 중입니다. 다른 기능을 이용하여 주십시오.
+          오답 입니다. 다시 선택해주세요.
         </Alert>
       </Snackbar>
-      <Breadcrumb
-        title="Level Select Wizard"
-        subtitle="this is Level Wizard page"
-      />
-      <ParentCard title="Level Select Wizard">
+      <ParentCard title="스스로 커지는 풍선">
         <Box width="100%">
-          <Stepper activeStep={activeStep}>
+          <Stepper
+            style={{
+              flexWrap: "wrap",
+              justifyItems: "center",
+              alignContent: "space-between",
+              justifyContent: "space-around",
+            }}
+            activeStep={activeStep}
+          >
             {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
               const labelProps: {
@@ -314,7 +285,7 @@ const selfinflatingballoon = () => {
             </>
           ) : (
             <>
-              <Box>{handleSteps(activeStep)}</Box>
+              <Box>{isWindow && handleSteps(activeStep)}</Box>
 
               <Box display="flex" flexDirection="row" mt={3}>
                 <Button
@@ -332,16 +303,17 @@ const selfinflatingballoon = () => {
                     Skip
                   </Button>
                 )}
-
-                {/* <Button
-                  onClick={handleNext}
-                  variant="contained"
-                  color={
-                    activeStep === steps.length - 1 ? "success" : "secondary"
-                  }
-                >
-                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                </Button> */}
+                {isShowNextButton && (
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    color={
+                      activeStep === steps.length - 1 ? "success" : "secondary"
+                    }
+                  >
+                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                  </Button>
+                )}
               </Box>
             </>
           )}
