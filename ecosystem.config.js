@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'science_rap_prototype_project',
-      script: 'npm run start',
+      script: 'npm run dev',
       watch: false,
       instances: '1',
       exec_mode: 'fork',
